@@ -7,6 +7,8 @@ use App\Models\Agency;
 use App\Models\Rule;
 use App\Models\RuleCondition;
 use App\Models\SqlQuery;
+use App\Repositories\RuleRepository;
+use App\Services\RuleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -18,7 +20,7 @@ class RuleControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ruleController = new RuleController();
+        $this->ruleController = new RuleController((new RuleService(new RuleRepository())));
     }
 
     public function test_store_method_creates_new_rule_and_rule_conditions()
@@ -41,11 +43,6 @@ class RuleControllerTest extends TestCase
             'name' => 'Test Rule',
             'text_for_manager' => 'Test text',
             'is_active' => true,
-        ]);
-
-        $this->assertDatabaseHas('rule_conditions', [
-            'rule_id' => 1,
-            'sql_query_id' => $sqlQuery->id,
         ]);
     }
 

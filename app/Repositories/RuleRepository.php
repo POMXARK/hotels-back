@@ -6,56 +6,36 @@ use App\Models\Rule;
 
 class RuleRepository
 {
-    public function getAllRules()
-    {
-        return Rule::all();
-    }
-
-    public function createRule($data)
+    public function create(array $ruleData)
     {
         $rule = new Rule();
-        $rule->name = $data['name'];
-        $rule->agency_id = $data['agency_id'];
-        $rule->text_for_manager = $data['text_for_manager'];
+        $rule->agency_id = $ruleData['agency_id'];
+        $rule->name = $ruleData['name'];
+        $rule->text_for_manager = $ruleData['text_for_manager'];
+        $rule->is_active = $ruleData['is_active'];
         $rule->save();
-
-        foreach ($data['conditions'] as $condition) {
-            $rule->conditions()->create($condition);
-        }
 
         return $rule;
     }
 
-    public function getRuleById($id)
+    public function update(int $ruleId, array $ruleData)
     {
-        return Rule::find($id);
-    }
-
-    public function updateRule($id, $data)
-    {
-        $rule = Rule::find($id);
-        $rule->name = $data['name'];
-        $rule->agency_id = $data['agency_id'];
-        $rule->text_for_manager = $data['text_for_manager'];
+        $rule = Rule::find($ruleId);
+        $rule->agency_id = $ruleData['agency_id'];
+        $rule->name = $ruleData['name'];
+        $rule->text_for_manager = $ruleData['text_for_manager'];
+        $rule->is_active = $ruleData['is_active'];
         $rule->save();
-
-        $rule->conditions()->delete();
-
-        foreach ($data['conditions'] as $condition) {
-            $rule->conditions()->create($condition);
-        }
 
         return $rule;
     }
 
-    public function deleteRule($id)
+    public function delete(int $ruleId)
     {
-        $rule = Rule::find($id);
+        $rule = Rule::find($ruleId);
+        $rule->ruleConditions()->delete();
         $rule->delete();
-    }
 
-    public function getConditionsByRule($rule)
-    {
-        return $rule->conditions;
+        return true;
     }
 }
