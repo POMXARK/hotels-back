@@ -22,6 +22,18 @@
                     <a class="nav-link" href="{{ route('rules.create') }}">Создать правило</a>
                 </li>
             </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle dropdown-menu-left" id="notification-count" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Уведомления (@php $notifications = \App\Models\Notification::all(); echo $notifications->count(); @endphp)
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="container">
+                            @include('notifications.index', ['notifications' => $notifications])
+                        </div>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -29,19 +41,41 @@
     @yield('content')
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+<script>
+    document.querySelector('.dropdown-menu').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
 
+    document.querySelector('.dropdown').addEventListener('click', function(event) {
+        this.classList.add('open');
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.dropdown')) {
+            document.querySelector('.dropdown').classList.remove('open');
+        }
+    });
+
+</script>
 <style>
-    .dropdown-menu {
-        padding: 10px;
+    .dropdown-menu[data-bs-popper]{
+        left: -300px;
     }
 
     .dropdown-menu li {
         padding: 5px;
+        margin-bottom: 5px;
     }
 
     .dropdown-menu li input[type="checkbox"] {
         margin-right: 10px;
     }
+
+    .dropdown-menu {
+        pointer-events: auto;
+        overflow: visible;
+    }
 </style>
+</body>
 </html>

@@ -15,6 +15,7 @@
 - - - sql_queries (список запросов условий)
 
 
+![me](https://github.com/POMXARK/hotels-back/blob/develop/docs/notification.gif)
 ![me](https://github.com/POMXARK/hotels-back/blob/develop/docs/rules_crud.gif)
 ![me](https://github.com/POMXARK/hotels-back/blob/develop/docs/db.png)
 

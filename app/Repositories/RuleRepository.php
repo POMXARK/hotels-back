@@ -18,9 +18,14 @@ class RuleRepository
         return $rule;
     }
 
-    public function update(int $ruleId, array $ruleData)
+    public function findById(int $id, array $relations = null)
     {
-        $rule = Rule::find($ruleId);
+        $query = Rule::query();
+        return $relations ? $query->with($relations)->findOrFail($id) : $query->findOrFail($id);
+    }
+
+    public function update(Rule $rule, array $ruleData)
+    {
         $rule->agency_id = $ruleData['agency_id'];
         $rule->name = $ruleData['name'];
         $rule->text_for_manager = $ruleData['text_for_manager'];
