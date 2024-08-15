@@ -15,56 +15,56 @@ class SqlQueriesTableSeeder extends Seeder
                 'name' => 'Город',
                 'description' => 'Если город отеля (равно | не равно) cities.id',
                 'select' => 'SELECT * FROM countries JOIN cities ON countries.id = cities.country_id JOIN hotels ON cities.id = hotels.city_id',
-                'where' => 'WHERE countries.id = 1'
+                'where' => 'WHERE countries.id = 1 AND hotels.id ='
             ],
             [
                 'id' => 2,
                 'name' => 'Страна',
                 'description' => 'Если страна отеля (равно | не равно) countries.id',
-                'select' => 'SELECT * FROM cities JOIN hotels ON cities.id = hotels.city_id',
-                'where' => 'WHERE cities.id = 1'
+                'select' => 'SELECT * FROM cities JOIN hotels ON cities.id = hotels.city_id JOIN countries ON countries.id = cities.country_id',
+                'where' => 'WHERE countries.id = 1 AND hotels.id ='
             ],
             [
                 'id' => 3,
                 'name' => 'Звездность',
                 'description' => 'Если звездность отеля (равно | не равно) hotels.stars',
                 'select' => 'SELECT * FROM hotels',
-                'where' => 'WHERE hotels.stars = 5'
+                'where' => 'WHERE hotels.stars = 5 AND hotels.id ='
             ],
             [
                 'id' => 4,
                 'name' => 'Комиссия или скидка',
                 'description' => 'Если в договоре комиссия или скидка hotel_agreements.discount_percent',
                 'select' => 'SELECT * FROM hotel_agreements',
-                'where' => 'WHERE discount_percent > 1 AND comission_percent = 0'
+                'where' => 'WHERE discount_percent > 1 AND comission_percent = 0 AND hotel_id ='
             ],
             [
                 'id' => 5,
                 'name' => 'Договор по умолчанию',
                 'description' => 'Если договор по умолчанию hotel_agreements.is_default',
                 'select' => 'SELECT * FROM hotel_agreements',
-                'where' => 'WHERE is_default = 1'
+                'where' => 'WHERE is_default = 1 AND hotel_id ='
             ],
             [
                 'id' => 6,
                 'name' => 'Черный список',
                 'description' => 'Если черный список agency_hotel_options.is_black',
                 'select' => 'SELECT * FROM agency_hotel_options',
-                'where' => 'WHERE is_black = 0'
+                'where' => 'WHERE is_black = 0 AND hotel_id ='
             ],
             [
                 'id' => 7,
                 'name' => 'Рекомендованный отель ',
                 'description' => 'Если рекомендованный отель agency_hotel_options.is_recomend',
                 'select' => 'SELECT * FROM agency_hotel_options',
-                'where' => 'WHERE is_recomend = 0'
+                'where' => 'WHERE is_recomend = 0 AND hotel_id ='
             ],
             [
                 'id' => 8,
                 'name' => 'Белый список',
                 'description' => 'Если белый список agency_hotel_options.is_black',
                 'select' => 'SELECT * FROM agency_hotel_options',
-                'where' => 'WHERE is_white = 0'
+                'where' => 'WHERE is_white = 0 AND hotel_id ='
             ],
         ]);
     }
