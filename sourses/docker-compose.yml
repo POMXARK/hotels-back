@@ -1,0 +1,41 @@
+version: '3'
+name: "php-test"
+
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - ./docker/db/dump:/docker-entrypoint-initdb.d
+
+  php:
+    build: 'docker/php'
+    env_file:
+      - .env
+    volumes:
+      - './:/var/www'
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:1.22.1-alpine
+    ports:
+      - 80:80
+    volumes:
+      - './:/var/www'
+      - './docker/php/pkg:/opt'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+    depends_on:
+      - php
+
+  adminer:
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080:8080
