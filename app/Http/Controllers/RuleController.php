@@ -9,7 +9,6 @@ use App\Repositories\RuleConditionRepository;
 use App\Services\RuleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class RuleController extends Controller
@@ -21,6 +20,7 @@ class RuleController extends Controller
     public function index(): View
     {
         $rules = Rule::with('agency', 'ruleConditions.sqlQuery')->get();
+
         return view('rules.index', compact('rules'));
     }
 
@@ -28,6 +28,7 @@ class RuleController extends Controller
     {
         $agencies = Agency::all();
         $sqlQueries = SqlQuery::all();
+
         return view('rules.create', compact('agencies', 'sqlQueries'));
     }
 
@@ -50,6 +51,7 @@ class RuleController extends Controller
         $rule = Rule::with('agency', 'ruleConditions.sqlQuery')->find($id);
         $agencies = Agency::all();
         $sqlQueries = SqlQuery::all();
+
         return view('rules.edit', compact('rule', 'agencies', 'sqlQueries'));
     }
 

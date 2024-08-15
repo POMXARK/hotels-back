@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Events\CheckHotelRules;
 use App\Messages\HotelRuleNotification;
 use App\Models\Agency;
-use App\Models\Hotel;
 use App\Models\Rule;
 
 class CheckHotelRulesListener
